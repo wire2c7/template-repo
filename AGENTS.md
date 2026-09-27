@@ -4,19 +4,8 @@
 人間向けの説明は [README.md](README.md) を参照してください。
 
 <!-- template-dev:begin -->
-## テンプレートリポジトリとしてのルール
-
-このリポジトリはGitHubのテンプレートリポジトリそのものであり、`main` の内容がテンプレートから作成されるリポジトリにそのまま配布される。
-ブランチ運用と配布物の作り方は [TEMPLATE_DEVELOPMENT.md](TEMPLATE_DEVELOPMENT.md) に従う。
-
-- 作業は `develop`（または `develop` から切った作業ブランチ）で行う。`main`・`release` には直接コミットしない
-- 変更のたびに「配布するものか、テンプレート開発専用か」を判断する
-  - 配布するもの: 特定のプロジェクト・言語・個人に依存する内容を書かない。利用者がそのまま使える汎用的な既定値にする
-  - テンプレート開発専用のファイル: `.templateignore` に追加する
-  - 配布するファイル中のテンプレート開発専用の記述: `template-dev` マーカーで囲む
-- 配布物に影響する変更をした場合は、TEMPLATE_DEVELOPMENT.md の手順で除去後の内容を確認し、除去後も `nix flake check`・`prek run --all-files` が通ることを確かめる
-- 配布先の利用者が行う作業は README.md のチェックリストに、このリポジトリの管理者が行う作業は TEMPLATE_DEVELOPMENT.md に書く
-- 以降の節は配布先のリポジトリ向けの記述であり、このリポジトリにもそのまま適用する
+> [!IMPORTANT]
+> このリポジトリはGitHubのテンプレートリポジトリそのものである。以降の記述に加えて `.claude/rules/template-dev.md` に従うこと。
 
 <!-- template-dev:end -->
 ## プロジェクト概要
@@ -46,13 +35,11 @@
 
 - `flake.nix` — `flake-parts` による単一の flake。フォーマッタ・リンタは `treefmt-nix` の `treefmt.programs` に集約し、`nix flake check` にも組み込まれる
 - `.pre-commit-config.yaml` — Gitフックのエントリポイント（prek）。フックはNix devShellのツールを使う（`language: system`）ため、devShell 外では動かない。devShell に入ると自動でインストールされる
-- `.github/workflows/ci.yaml` — ローカルと同じツールを `nix develop --command` 経由で実行する。ローカルで `nix flake check` と `prek run --all-files` が通ればCIも通る状態を保つ
-- `.github/renovate.json5` — `flake.lock` と GitHub Actions の更新はRenovateに任せる
-- `.claude/` — Claude Code のプロジェクト設定。ファイル種別ごとの規約は `.claude/rules/*.md` にあり、Claude Code 以外のエージェントも該当するファイルを編集する前に読むこと
 
 ## 規約
 
 - コメント・ドキュメント・コミットメッセージは日本語で書く
+- ファイル種別ごとの規約は `.claude/rules/*.md` にある（`paths` で対象ファイルを指定）。Claude Code 以外のエージェントも、該当するファイルを編集する前に読むこと
 - 設定ファイルには原則ツールのデフォルトと異なる項目のみを書く。デフォルトと同じ値をあえて書く場合は、その理由をコメントで残す
 - 変更は依頼された範囲に留め、無関係なリファクタリングを混ぜない
 
