@@ -48,9 +48,9 @@ gitignore と同じ書式でパスを列挙します。
 - [ ] Settings → General → **Template repository** を有効にする
 - [ ] 既定ブランチが `main` であることを確認する
 - [ ] `develop` と `release` ブランチを作成する
-- [ ] Settings → Actions → General → **Allow GitHub Actions to create and approve pull requests** を有効にする
-- [ ] （推奨）PRを作成するトークンを Secrets の `RELEASE_PR_TOKEN` に登録する
-  - `GITHUB_TOKEN` で作成したPRでは CI（`pull_request` イベント）が起動しないため
-  - Fine-grained PAT で、このリポジトリに対する Contents と Pull requests の Read and write 権限を付与する
+- [ ] Fine-grained PAT を発行し、Secrets の `RELEASE_PR_TOKEN` に登録する
+  - 対象はこのリポジトリのみとし、Contents・Pull requests・Workflows の Read and write 権限を付与する
+  - `GITHUB_TOKEN` ではワークフローファイルを含むコミットを push できず、作成したPRで CI も起動しないため必須
+  - 有効期限が切れると `Release to main` ワークフローが失敗するため、期限前に更新する
 - [ ] Renovate GitHub App をインストールする
 - [ ] ブランチ保護: `main` と `release` への直接 push を禁止し、CI の `check` を必須にする
