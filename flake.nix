@@ -35,6 +35,7 @@
             projectRootFile = "flake.nix";
             programs = {
               nixfmt.enable = true;
+              rumdl-check.enable = true;
               shellcheck.enable = true;
               shfmt = {
                 enable = true;
@@ -53,6 +54,7 @@
               pkgs.actionlint
               pkgs.betterleaks
               pkgs.commitlint
+              pkgs.jq
               pkgs.prek
             ];
 
