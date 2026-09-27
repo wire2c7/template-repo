@@ -16,3 +16,4 @@
 
 - 作業は `develop`（または `develop` から切った作業ブランチ）で行う。`main`・`release` には直接コミットしない
 - 配布物に影響する変更をしたら、コミット前に `preview-template` スキルで配布物を検証する
+- このリポジトリでは Renovate を使わないため、依存（`flake.lock`・GitHub Actions の参照・Renovate の共有設定のバージョン）は `develop` で手動で更新する。`TEMPLATE_DEVELOPMENT.md` の「依存の更新」を参照

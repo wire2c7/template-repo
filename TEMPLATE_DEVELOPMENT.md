@@ -43,6 +43,15 @@ gitignore と同じ書式でパスを列挙します。
 
 `.github/scripts/preview-template.sh` で配布物を生成・検証できます。使い方はスクリプト冒頭のコメントを参照してください。
 
+## 依存の更新
+
+このリポジトリでは Renovate を使いません。Renovate は既定ブランチ（`main`）にしか更新PRを作れず、`develop` → `release` → `main` の運用と両立しないためです。
+派生リポジトリは作成直後から Renovate で更新されるため、このリポジトリの依存が多少古くても影響は小さく、必要に応じて `develop` で手動で更新します。
+
+- `flake.lock`: `nix flake update`
+- GitHub Actions の参照（`wire2c7/workflows` を含む）: コミットハッシュとバージョンのコメントを更新する。テンプレート開発専用のワークフローも対象
+- `.github/renovate.json5` の共有設定のバージョン
+
 ## リポジトリの初期設定
 
 - [ ] Settings → General → **Template repository** を有効にする
@@ -52,7 +61,7 @@ gitignore と同じ書式でパスを列挙します。
   - 対象はこのリポジトリのみとし、Contents・Pull requests・Workflows の Read and write 権限を付与する
   - `GITHUB_TOKEN` ではワークフローファイルを含むコミットを push できず、作成したPRで CI も起動しないため必須
   - 有効期限が切れると `Release to main` ワークフローが失敗するため、期限前に更新する
-- [ ] Renovate GitHub App をインストールする
+- [ ] Renovate GitHub App を全リポジトリ対象でインストールしている場合は、このリポジトリを対象から除外する
 - [ ] Settings → Rules → Rulesets で `main`・`release` それぞれにルールセットを作成する
-  - PR必須（承認数0）、ステータスチェック `check`（GitHub Actions）必須、force push・削除の禁止。迂回（bypass）は設定しない
+  - PR必須（承認数0）、ステータスチェック `ci / check`（GitHub Actions）必須、force push・削除の禁止。迂回（bypass）は設定しない
   - `release` のマージ方法は Merge commit のみにする（squash すると `develop` と履歴が分岐し、以降のPRでコンフリクトするため）
