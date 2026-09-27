@@ -54,14 +54,14 @@ gitignore と同じ書式でパスを列挙します。
 
 ## リポジトリの初期設定
 
-- [ ] Settings → General → **Template repository** を有効にする
-- [ ] 既定ブランチが `main` であることを確認する
-- [ ] `develop` と `release` ブランチを作成する
-- [ ] Fine-grained PAT を発行し、Secrets の `RELEASE_PR_TOKEN` に登録する
+- [x] Settings → General → **Template repository** を有効にする
+- [x] 既定ブランチが `main` であることを確認する
+- [x] `develop` と `release` ブランチを作成する
+- [x] Fine-grained PAT を発行し、Secrets の `RELEASE_PR_TOKEN` に登録する
   - 対象はこのリポジトリのみとし、Contents・Pull requests・Workflows の Read and write 権限を付与する
   - `GITHUB_TOKEN` ではワークフローファイルを含むコミットを push できず、作成したPRで CI も起動しないため必須
   - 有効期限が切れると `Release to main` ワークフローが失敗するため、期限前に更新する
-- [ ] Renovate GitHub App を全リポジトリ対象でインストールしている場合は、このリポジトリを対象から除外する
-- [ ] Settings → Rules → Rulesets で `main`・`release` それぞれにルールセットを作成する
+- [x] Renovate GitHub App を全リポジトリ対象でインストールしている場合は、このリポジトリを対象から除外する
+- [x] Settings → Rules → Rulesets で `main`・`release` それぞれにルールセットを作成する
   - PR必須（承認数0）、ステータスチェック `ci / check`（GitHub Actions）必須、force push・削除の禁止。迂回（bypass）は設定しない
   - `release` のマージ方法は Merge commit のみにする（squash すると `develop` と履歴が分岐し、以降のPRでコンフリクトするため）
