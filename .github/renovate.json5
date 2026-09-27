@@ -1,25 +1,4 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
-  extends: ["config:recommended", ":semanticCommits", "helpers:pinGitHubActionDigests"],
-  // template-dev:begin
-  // テンプレート開発では develop に対して更新PRを作成する（main は release からのみ更新する）
-  baseBranchPatterns: ["develop"],
-  // template-dev:end
-  timezone: "Asia/Tokyo",
-  schedule: ["before 9am on monday"],
-  nix: {
-    enabled: true,
-  },
-  lockFileMaintenance: {
-    enabled: true,
-    schedule: ["before 9am on monday"],
-  },
-  packageRules: [
-    {
-      description: "GitHub Actionsのminor/patch/digest更新はまとめる",
-      matchManagers: ["github-actions"],
-      matchUpdateTypes: ["minor", "patch", "digest", "pinDigest"],
-      groupName: "GitHub Actions",
-    },
-  ],
+  extends: ["github>wire2c7/workflows#v1.0.0"],
 }

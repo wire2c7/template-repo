@@ -14,29 +14,5 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  check:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0 # commitlint / betterleaks で履歴を参照するため
-          persist-credentials: false
-
-      - uses: cachix/install-nix-action@13d8dd58da0234aa297dedd986986ccb8e7f3e24 # v31.11.1
-
-      - name: nix flake check
-        run: nix flake check --print-build-logs
-
-      - name: prek (all files)
-        run: nix develop --command prek run --all-files --show-diff-on-failure
-
-      - name: betterleaks (git history)
-        run: nix develop --command betterleaks git --no-banner --redact --verbose
-
-      - name: commitlint (PR commits)
-        if: github.event_name == 'pull_request'
-        env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        run: nix develop --command commitlint --from "$BASE_SHA" --to "$HEAD_SHA" --verbose
+  ci:
+    uses: wire2c7/workflows/.github/workflows/nix-ci.yaml@3c49686fb929d3427e0abad5a4ed214defb0b903 # v1.0.0

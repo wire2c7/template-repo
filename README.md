@@ -24,8 +24,8 @@
 | `.pre-commit-config.yaml` | prek のフック定義 |
 | `.commitlintrc.yaml` | コミットメッセージの検証ルール |
 | `.editorconfig` | エディタ共通の書式設定 |
-| `.github/workflows/ci.yaml` | CI |
-| `.github/renovate.json5` | Renovate の設定 |
+| `.github/workflows/ci.yaml` | CI（[wire2c7/workflows](https://github.com/wire2c7/workflows) の共有ワークフローを呼び出す） |
+| `.github/renovate.json5` | Renovate の設定（wire2c7/workflows の共有設定を継承） |
 | `.github/pull_request_template.md` / `.github/ISSUE_TEMPLATE/` | PR・Issue のテンプレート |
 | `AGENTS.md` | AIエージェント向けのプロジェクト指示（Claude Code もこれを読む） |
 | `.claude/` | Claude Code のプロジェクト設定・ファイル種別ごとの規約・スキル |
@@ -62,7 +62,7 @@
 - [ ] `AGENTS.md` の TODO（プロジェクト概要、ビルド・テストコマンド）を埋める
 - [ ] CI にビルド・テストのステップを追加する
 - [ ] リポジトリに [Renovate GitHub App](https://github.com/apps/renovate) をインストールする
-- [ ] ブランチ保護で CI の `check` ジョブを必須にする
+- [ ] ブランチ保護で CI のステータスチェック `ci / check` を必須にする
 - [ ] この README をプロジェクト用に書き換える
 
 ## よく使うコマンド
