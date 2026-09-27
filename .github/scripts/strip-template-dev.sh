@@ -10,7 +10,7 @@
 #        <!-- template-dev:end -->
 #      begin/end の対応が取れていない場合はエラーで終了する。
 # 作業ツリーを直接書き換えるため、ローカルで試すときは
-# git worktree 等の使い捨ての作業ツリーで実行すること。
+# preview-template.sh 経由で実行すること。
 set -euo pipefail
 
 cd "$(git rev-parse --show-toplevel)"

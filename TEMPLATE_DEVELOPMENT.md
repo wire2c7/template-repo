@@ -39,16 +39,9 @@ gitignore と同じ書式でパスを列挙します。
 
 ファイル内の開発専用の記述はマーカーで囲みます。書式は `.github/scripts/strip-template-dev.sh` 冒頭のコメントを参照してください。
 
-### 除去結果をローカルで確認する
+### 配布物をローカルで確認する
 
-スクリプトは作業ツリーを直接書き換えるため、worktree 上で実行します。
-
-```sh
-git worktree add --detach ../template-preview HEAD
-cp .github/scripts/strip-template-dev.sh /tmp/
-(cd ../template-preview && /tmp/strip-template-dev.sh && git status --short)
-git worktree remove --force ../template-preview
-```
+`.github/scripts/preview-template.sh` で配布物を生成・検証できます。使い方はスクリプト冒頭のコメントを参照してください。
 
 ## リポジトリの初期設定
 
