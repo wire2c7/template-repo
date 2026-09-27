@@ -65,3 +65,5 @@ gitignore と同じ書式でパスを列挙します。
 - [x] Settings → Rules → Rulesets で `main`・`release` それぞれにルールセットを作成する
   - PR必須（承認数0）、ステータスチェック `ci / check`（GitHub Actions）必須、force push・削除の禁止。迂回（bypass）は設定しない
   - `release` のマージ方法は Merge commit のみにする（squash すると `develop` と履歴が分岐し、以降のPRでコンフリクトするため）
+- [x] Settings → General → **Automatically delete head branches** を有効にする（マージ済みの `release-to-main` を削除するため）
+- [x] `develop` に削除を禁止するルールセットを作成する（`develop` → `release` のマージで自動削除されないようにするため。削除を禁止したブランチは自動削除の対象外になる）
