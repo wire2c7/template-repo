@@ -1,0 +1,9 @@
+# テンプレート開発専用のファイル（gitignore形式）
+# release → main のPRを作成するときに除去され、テンプレート利用者には配布されない
+/.templateignore
+/TEMPLATE_DEVELOPMENT.md
+/.github/scripts/strip-template-dev.sh
+/.github/workflows/release-to-main.yaml
+/.github/scripts/preview-template.sh
+/.claude/rules/template-dev.md
+/.claude/skills/preview-template/
