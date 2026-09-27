@@ -20,13 +20,14 @@
 - 開発ツールはすべてNix devShell（`flake.nix`）で管理する。グローバルインストール（`npm i -g`、`pip install --user`、`brew install` 等）はしない
 - 新しいツールが必要な場合は `flake.nix` の `devShells.default.packages` に追加する
 - コマンドは devShell 内で実行する。direnv が有効でない環境では `nix develop --command <cmd>` を使う
-- `flake.nix` を変更した場合、新規ファイルはGitに追加（`git add`）しないとflakeから見えない点に注意
+- 新規ファイルは `git add` するまで flake（`nix build` / `nix flake check` / `nix fmt` 等）から見えない点に注意
+- ローカル用の環境変数は `.env` に書く（雛形は `.env.example`）。direnv 利用時は `.envrc` により自動で読み込まれる
 
 ## よく使うコマンド
 
 | 目的 | コマンド |
 | --- | --- |
-| フォーマット | `nix fmt` |
+| フォーマット | `treefmt`（devShell 外では `nix fmt`。どちらも同じ treefmt の設定で実行される） |
 | 全チェック（CIと同等） | `nix flake check` と `prek run --all-files` |
 | シークレット検査 | `betterleaks git --staged` |
 | GitHub Actionsの検査 | `actionlint` |
@@ -36,7 +37,8 @@
 ## コーディング規約
 
 - 基本的な書式は `.editorconfig` に従う（インデントはスペース2、LF、末尾改行あり、最大120桁）
-- フォーマッタは treefmt（`flake.nix` の `treefmt.programs`）に集約する。言語を追加したら対応するフォーマッタもそこへ追加する
+- フォーマッタ・リンタは treefmt（`flake.nix` の `treefmt.programs`）に集約する。言語を追加したら対応するものをそこへ追加する
+  - 現在の設定: nixfmt（Nix）、shfmt・shellcheck（シェルスクリプト）
 - 変更は依頼された範囲に留め、無関係なリファクタリングを混ぜない
 
 ## コミット規約
@@ -46,6 +48,7 @@
   - type: `feat` / `fix` / `docs` / `style` / `refactor` / `perf` / `test` / `build` / `ci` / `chore` / `revert`
 - subject・本文は日本語で書いてよい
 - 1コミット1論理変更を基本とする
+- PRは `.github/pull_request_template.md` の項目に沿って記述し、PRタイトルも Conventional Commits の形式にする
 
 ## Gitフック・CI
 
@@ -58,6 +61,9 @@
 
 ## 禁止事項
 
-- シークレット（APIキー、トークン、秘密鍵等）をコミットしない。`.env` はGit管理外。
+- シークレット（APIキー、トークン、秘密鍵等）をコミットしない（`.env` はGit管理外）
 - `flake.lock` を手で編集しない（`nix flake update` か Renovate に任せる）
+
+## このファイルの保守
+
 - このファイルと実態がずれた場合は、コードに合わせてこのファイルを更新する
