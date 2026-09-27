@@ -9,9 +9,9 @@
 
 - **Nix devShell**（flake-parts）による再現可能な開発環境
 - **treefmt** によるフォーマッタの集約（`nix fmt`）
-- **prek** によるGitフック（ファイル検査、フォーマット、シークレット検出、コミットメッセージ検証）
-- **GitHub Actions** によるCI（ローカルのフックと同じチェック）
-- **Renovate** による依存関係（`flake.lock`、GitHub Actions）の自動更新
+- **prek** によるGitフック
+- **GitHub Actions** によるCI
+- **Renovate** による依存関係の自動更新
 - **AGENTS.md** によるAIコーディングエージェント向けの指示
 
 ## 含まれるもの
@@ -19,12 +19,12 @@
 | ファイル | 役割 |
 | --- | --- |
 | `flake.nix` / `flake.lock` | devShell・treefmt・`nix flake check` の定義 |
-| `.envrc.example` | direnv 用（devShell の読み込みと `.env` の読み込み） |
+| `.envrc.example` | direnv の設定の雛形 |
 | `.env.example` | ローカル用環境変数の雛形 |
 | `.pre-commit-config.yaml` | prek のフック定義 |
-| `.commitlintrc.yaml` | Conventional Commits の検証ルール（日本語の subject に対応） |
+| `.commitlintrc.yaml` | コミットメッセージの検証ルール |
 | `.editorconfig` | エディタ共通の書式設定 |
-| `.github/workflows/ci.yaml` | CI（flake check、prek、betterleaks、commitlint） |
+| `.github/workflows/ci.yaml` | CI |
 | `.github/renovate.json5` | Renovate の設定 |
 | `.github/pull_request_template.md` / `.github/ISSUE_TEMPLATE/` | PR・Issue のテンプレート |
 | `AGENTS.md` | AIエージェント向けのプロジェクト指示（Claude Code もこれを読む） |
@@ -49,7 +49,7 @@
    nix develop
    ```
 
-   devShell に入ると prek の Gitフック（pre-commit / commit-msg）が自動でインストールされます。
+   devShell に入ると prek の Gitフックが自動でインストールされます。
 
 3. 下のチェックリストに沿ってプロジェクト固有の設定をする
 

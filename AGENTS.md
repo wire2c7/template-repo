@@ -36,16 +36,13 @@
 
 ## コーディング規約
 
-- 基本的な書式は `.editorconfig` に従う（インデントはスペース2、LF、末尾改行あり、最大120桁）
+- 基本的な書式は `.editorconfig` に従う
 - フォーマッタ・リンタは treefmt（`flake.nix` の `treefmt.programs`）に集約する。言語を追加したら対応するものをそこへ追加する
-  - 現在の設定: nixfmt（Nix）、shfmt・shellcheck（シェルスクリプト）
 - 変更は依頼された範囲に留め、無関係なリファクタリングを混ぜない
 
 ## コミット規約
 
-- [Conventional Commits](https://www.conventionalcommits.org/ja/) に従う（commitlint で検証される）
-  - 形式: `<type>(<scope>): <subject>`
-  - type: `feat` / `fix` / `docs` / `style` / `refactor` / `perf` / `test` / `build` / `ci` / `chore` / `revert`
+- [Conventional Commits](https://www.conventionalcommits.org/ja/) に従う。ルールは `.commitlintrc.yaml` を参照（commitlint で検証される）
 - subject・本文は日本語で書いてよい
 - 1コミット1論理変更を基本とする
 - PRは `.github/pull_request_template.md` の項目に沿って記述し、PRタイトルも Conventional Commits の形式にする
@@ -53,8 +50,6 @@
 ## Gitフック・CI
 
 - Gitフックは prek（`.pre-commit-config.yaml`）で管理し、devShell に入ると自動でインストールされる
-  - pre-commit: 組み込みチェック、treefmt、actionlint、betterleaks
-  - commit-msg: commitlint
 - `--no-verify` でフックを回避しない。フックが失敗したら原因を修正する
 - CI（`.github/workflows/ci.yaml`）はローカルのフックと同じチェックを実行する。ローカルで通ればCIも通る状態を保つ
 - GitHub Actionsはコミット SHA で固定する（Renovate が更新する）

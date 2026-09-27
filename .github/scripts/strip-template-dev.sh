@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 # テンプレート開発専用のファイル・記述を作業ツリーから除去する。
 #   1. .templateignore にマッチする追跡ファイルを削除
-#   2. 残ったファイル中の `template-dev:begin` 〜 `template-dev:end` の行範囲を削除
+#   2. 残ったファイル中の `template-dev:begin` 〜 `template-dev:end` の行範囲を（マーカー行を含めて）削除
+#      マーカー行はコメント記号と空白以外を含まない行とし、コメント記法は問わない。例:
+#        <!-- template-dev:begin -->
+#        テンプレート開発時だけ必要な記述
+#        <!-- template-dev:end -->
+#      begin/end の対応が取れていない場合はエラーで終了する。
 # 作業ツリーを直接書き換えるため、ローカルで試すときは git worktree 等の使い捨ての作業ツリーで実行すること。
 set -euo pipefail
 

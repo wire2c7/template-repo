@@ -24,13 +24,9 @@ flowchart LR
 
 ## release → main の自動化
 
-`release` に push されると `.github/workflows/release-to-main.yaml` が次の処理をします。
+`release` への push で `.github/workflows/release-to-main.yaml` が `main` へのPRを作成・更新します。処理内容はワークフローを参照してください。
 
-1. `origin/main` から `release-to-main` ブランチを作り、ツリーを `release` の内容で丸ごと置き換える
-2. `.github/scripts/strip-template-dev.sh` でテンプレート開発専用のものを除去する
-3. 1コミットにまとめて force push し、`main` へのPRを作成（既にあれば更新）する
-
-ツリーを丸ごと置き換えるため、PRの差分は「現在の `main`」と「新しい配布内容」の差になります。
+`main` を起点にツリーを `release` の内容で丸ごと置き換えてから除去するため、PRの差分は「現在の `main`」と「新しい配布内容」の差になります。
 `main` の履歴やマージ方法（merge / squash）に関係なくコンフリクトしません。
 
 ## 配布しないものの指定
@@ -41,16 +37,7 @@ gitignore と同じ書式でパスを列挙します。
 
 ### ファイル内の一部: `template-dev` マーカー
 
-`template-dev:begin` を含む行から `template-dev:end` を含む行までが（マーカー行を含めて）削除されます。
-コメント記法は問わないので、各言語のコメントで書けます。
-
-```markdown
-<!-- template-dev:begin -->
-テンプレート開発時だけ必要な記述
-<!-- template-dev:end -->
-```
-
-begin と end の数が合わない場合、スクリプトはエラーで終了します。
+ファイル内の開発専用の記述はマーカーで囲みます。書式は `.github/scripts/strip-template-dev.sh` 冒頭のコメントを参照してください。
 
 ### 除去結果をローカルで確認する
 
@@ -72,5 +59,5 @@ git worktree remove --force ../template-preview
 - [ ] （推奨）PRを作成するトークンを Secrets の `RELEASE_PR_TOKEN` に登録する
   - `GITHUB_TOKEN` で作成したPRでは CI（`pull_request` イベント）が起動しないため
   - Fine-grained PAT で、このリポジトリに対する Contents と Pull requests の Read and write 権限を付与する
-- [ ] Renovate GitHub App をインストールする（`develop` 向けにPRが作られる）
+- [ ] Renovate GitHub App をインストールする
 - [ ] ブランチ保護: `main` と `release` への直接 push を禁止し、CI の `check` を必須にする
