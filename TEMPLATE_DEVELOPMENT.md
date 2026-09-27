@@ -53,4 +53,6 @@ gitignore と同じ書式でパスを列挙します。
   - `GITHUB_TOKEN` ではワークフローファイルを含むコミットを push できず、作成したPRで CI も起動しないため必須
   - 有効期限が切れると `Release to main` ワークフローが失敗するため、期限前に更新する
 - [ ] Renovate GitHub App をインストールする
-- [ ] ブランチ保護: `main` と `release` への直接 push を禁止し、CI の `check` を必須にする
+- [ ] Settings → Rules → Rulesets で `main`・`release` それぞれにルールセットを作成する
+  - PR必須（承認数0）、ステータスチェック `check`（GitHub Actions）必須、force push・削除の禁止。迂回（bypass）は設定しない
+  - `release` のマージ方法は Merge commit のみにする（squash すると `develop` と履歴が分岐し、以降のPRでコンフリクトするため）
