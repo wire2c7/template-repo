@@ -1,0 +1,13 @@
+# .env
+.env
+.env.*
+!.env.example
+
+# direnv
+.direnv/
+.envrc
+!.envrc.example
+
+# Nix (`nix build` の出力はシンボリックリンクのため末尾スラッシュを付けない)
+result
+result-*
