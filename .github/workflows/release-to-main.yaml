@@ -1,0 +1,79 @@
+# release ブランチの内容からテンプレート開発専用のものを除去し、main へのPRを作成・更新する
+name: Release to main
+
+on:
+  push:
+    branches: [release]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+env:
+  PR_BRANCH: release-to-main
+
+jobs:
+  pr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: release
+          fetch-depth: 0
+          # GITHUB_TOKEN で作成したPRではCIが起動しないため、設定されていればPATを使う
+          token: ${{ secrets.RELEASE_PR_TOKEN || github.token }}
+
+      - name: Build template snapshot
+        id: build
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          release_sha=$(git rev-parse HEAD)
+          echo "release-sha=$release_sha" >> "$GITHUB_OUTPUT"
+
+          # スクリプト自身も除去対象なので退避してから実行する
+          cp .github/scripts/strip-template-dev.sh "$RUNNER_TEMP/"
+
+          # main を起点に、ツリーを release の内容で丸ごと置き換える（差分は main のスナップショットとの差になる）
+          git switch --create "$PR_BRANCH" origin/main
+          git read-tree -u --reset "$release_sha"
+          "$RUNNER_TEMP/strip-template-dev.sh"
+          git add --all
+
+          if git diff --cached --quiet origin/main; then
+            echo "main はすでに最新です"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit --quiet --message "chore(release): release@${release_sha::7} をテンプレートに反映"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create or update pull request
+        if: steps.build.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_PR_TOKEN || github.token }}
+          RELEASE_SHA: ${{ steps.build.outputs.release-sha }}
+        run: |
+          git push --force origin "$PR_BRANCH"
+
+          body=$(cat <<BODY
+          \`release\` ブランチ（${RELEASE_SHA}）からテンプレート開発専用のファイル・記述を除去した内容です。
+
+          - 除去対象: \`.templateignore\` と \`template-dev:begin\`〜\`template-dev:end\` のブロック
+          - このPRは \`release\` への push のたびに自動で更新されます
+          BODY
+          )
+
+          pr=$(gh pr list --head "$PR_BRANCH" --base main --state open --json number --jq '.[0].number')
+          if [[ -n $pr ]]; then
+            gh pr edit "$pr" --body "$body"
+          else
+            gh pr create --head "$PR_BRANCH" --base main --title "chore(release): テンプレートを更新" --body "$body"
+          fi
