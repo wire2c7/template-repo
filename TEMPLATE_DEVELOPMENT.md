@@ -7,9 +7,13 @@
 
 GitHubのTemplate Repositoryは既定ブランチ（`main`）の内容をコピーするため、`main` は常に「テンプレートとしてそのまま使える状態」に保ちます。
 
-```text
-develop ──PR──▶ release ──(自動でPR作成)──▶ main
- 開発作業         リリース候補                 配布される内容
+```mermaid
+flowchart LR
+  feature["作業ブランチ"] -. "PR（任意）" .-> develop
+  develop["develop<br/>開発作業"] -- "PR" --> release["release<br/>リリース候補"]
+  release -- "push で<br/>ワークフロー起動" --> rtm["release-to-main<br/>開発専用ファイルを除去"]
+  rtm -- "自動作成された PR" --> main["main<br/>配布される内容"]
+  main -- "Use this template" --> repo(["新規リポジトリ"])
 ```
 
 | ブランチ | 役割 | 更新方法 |
