@@ -17,6 +17,11 @@ repos:
         args: [--fix=lf]
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
+      # template-dev:begin
+      # main・release は PR 経由でのみ更新する（TEMPLATE_DEVELOPMENT.md）
+      - id: no-commit-to-branch
+        args: [--branch=main, --branch=release]
+      # template-dev:end
 
   - repo: local
     hooks:
