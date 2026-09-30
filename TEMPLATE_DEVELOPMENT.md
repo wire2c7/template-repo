@@ -27,7 +27,8 @@ flowchart LR
 `release` への push で `.github/workflows/release-to-main.yaml` が `main` へのPRを作成・更新します。処理内容はワークフローを参照してください。
 
 `main` を起点にツリーを `release` の内容で丸ごと置き換えてから除去するため、PRの差分は「現在の `main`」と「新しい配布内容」の差になります。
-`main` の履歴やマージ方法（merge / squash）に関係なくコンフリクトしません。
+`main` の履歴に関係なくコンフリクトしません。
+作成するコミットは `release` のコミットも親に持つため、`main` の履歴から反映元の `release` をたどれます。
 
 ## 配布しないものの指定
 
@@ -65,5 +66,6 @@ gitignore と同じ書式でパスを列挙します。
 - [x] Settings → Rules → Rulesets で `main`・`release` それぞれにルールセットを作成する
   - PR必須（承認数0）、ステータスチェック `ci / check`（GitHub Actions）必須、force push・削除の禁止。迂回（bypass）は設定しない
   - `release` のマージ方法は Merge commit のみにする（squash すると `develop` と履歴が分岐し、以降のPRでコンフリクトするため）
+  - `main` のマージ方法も Merge commit のみにする（squash すると `main` の履歴から `release` をたどれなくなるため）
 - [x] Settings → General → **Automatically delete head branches** を有効にする（マージ済みの `release-to-main` を削除するため）
 - [x] `develop` に削除を禁止するルールセットを作成する（`develop` → `release` のマージで自動削除されないようにするため。削除を禁止したブランチは自動削除の対象外になる）

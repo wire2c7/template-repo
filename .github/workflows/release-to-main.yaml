@@ -59,7 +59,11 @@ jobs:
             echo "main はすでに最新です"
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
-            git commit --quiet --message "chore(release): release@${release_sha::7} をテンプレートに反映"
+            # release も親にして、main の履歴から反映元の release をたどれるようにする
+            tree=$(git write-tree)
+            commit=$(git commit-tree "$tree" -p origin/main -p "$release_sha" \
+              -m "chore(release): release@${release_sha::7} をテンプレートに反映")
+            git reset --quiet "$commit"
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
