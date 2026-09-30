@@ -29,6 +29,7 @@
 | `.github/pull_request_template.md` / `.github/ISSUE_TEMPLATE/` | PR・Issue のテンプレート |
 | `AGENTS.md` | AIエージェント向けのプロジェクト指示（Claude Code もこれを読む） |
 | `.claude/` | Claude Code のプロジェクト設定・ファイル種別ごとの規約・スキル |
+| `docs/adr/_template.md` | 設計判断の記録（ADR）の雛形 |
 
 ## 前提
 

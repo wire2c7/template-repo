@@ -7,3 +7,4 @@
 /.github/scripts/preview-template.sh
 /.claude/rules/template-dev.md
 /.claude/skills/preview-template/
+/docs/adr/[0-9]*.md
