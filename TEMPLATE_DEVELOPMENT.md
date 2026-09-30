@@ -8,12 +8,22 @@
 GitHubのTemplate Repositoryは既定ブランチ（`main`）の内容をコピーするため、`main` は常に「テンプレートとしてそのまま使える状態」に保ちます。
 
 ```mermaid
-flowchart LR
-  feature["作業ブランチ"] -. "PR（任意）" .-> develop
-  develop["develop<br/>開発作業"] -- "PR" --> release["release<br/>リリース候補"]
-  release -- "push で<br/>ワークフロー起動" --> rtm["release-to-main<br/>開発専用ファイルを除去"]
-  rtm -- "自動作成された PR" --> main["main<br/>配布される内容"]
-  main -- "Use this template" --> repo(["新規リポジトリ"])
+gitGraph
+  commit id: "initial commit"
+  branch release
+  branch develop
+  commit id: "開発"
+  branch 作業ブランチ
+  commit id: "作業"
+  checkout develop
+  merge 作業ブランチ id: "PR（任意）"
+  checkout release
+  merge develop id: "PR: develop → release"
+  checkout main
+  branch release-to-main
+  merge release id: "開発専用ファイルを除去"
+  checkout main
+  merge release-to-main id: "自動作成のPR" tag: "配布される内容"
 ```
 
 | ブランチ | 役割 | 更新方法 |
