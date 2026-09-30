@@ -10,17 +10,17 @@ GitHubのTemplate Repositoryは既定ブランチ（`main`）の内容をコピ�
 ```mermaid
 gitGraph
   commit id: "initial commit"
-  branch release
-  branch develop
+  branch release order: 2
+  branch develop order: 3
   commit id: "開発"
-  branch feature
+  branch feature order: 4
   commit id: "作業"
   checkout develop
   merge feature id: "PR（任意）"
   checkout release
   merge develop id: "PR: develop → release"
   checkout main
-  branch release-to-main
+  branch release-to-main order: 1
   merge release id: "開発専用ファイルを除去"
   checkout main
   merge release-to-main id: "自動作成のPR" tag: "配布される内容"
