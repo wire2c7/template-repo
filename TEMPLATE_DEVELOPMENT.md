@@ -13,10 +13,10 @@ gitGraph
   branch release
   branch develop
   commit id: "開発"
-  branch 作業ブランチ
+  branch feature
   commit id: "作業"
   checkout develop
-  merge 作業ブランチ id: "PR（任意）"
+  merge feature id: "PR（任意）"
   checkout release
   merge develop id: "PR: develop → release"
   checkout main
