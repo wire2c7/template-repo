@@ -4,7 +4,6 @@ name: Release to main
 on:
   push:
     branches: [release]
-  workflow_dispatch:
 
 # push・PR作成は RELEASE_PR_TOKEN（PAT）で行い、GITHUB_TOKEN は使わない
 permissions: {}
