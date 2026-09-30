@@ -13,6 +13,7 @@
 - **GitHub Actions** によるCI
 - **Renovate** による依存関係の自動更新
 - **AGENTS.md** によるAIコーディングエージェント向けの指示
+- **ADR** による設計判断の記録（雛形・規約・Claude Code のスキル）
 
 ## 含まれるもの
 
