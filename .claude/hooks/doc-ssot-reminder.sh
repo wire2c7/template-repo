@@ -10,10 +10,11 @@ source "${BASH_SOURCE[0]%/*}/use-devshell.sh" jq
 input=$(cat)
 file_path=$(jq -r '.tool_input.file_path // empty' <<<"${input}")
 
-case "${file_path}" in
-*/AGENTS.md | */README.md | */.claude/*) ;;
+# 対象は .claude/rules/docs.md の paths と揃える
+case "${file_path#"${CLAUDE_PROJECT_DIR}"/}" in
+AGENTS.md | README.md | .claude/*.md) ;;
 # template-dev:begin
-*/TEMPLATE_DEVELOPMENT.md) ;;
+TEMPLATE_DEVELOPMENT.md) ;;
 # template-dev:end
 *) exit 0 ;;
 esac
