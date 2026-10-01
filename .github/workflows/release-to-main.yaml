@@ -88,3 +88,15 @@ jobs:
           else
             gh pr create --head "$PR_BRANCH" --base main --title "chore(release): テンプレートを更新" --body "$body"
           fi
+
+      # release の変更が取り消されて main と同じになった場合、残っているPRは古い内容なので閉じる
+      - name: Close outdated pull request
+        if: steps.build.outputs.changed == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_PR_TOKEN }}
+          RELEASE_SHA: ${{ steps.build.outputs.release-sha }}
+        run: |
+          pr=$(gh pr list --head "$PR_BRANCH" --base main --state open --json number --jq '.[0].number')
+          if [[ -n $pr ]]; then
+            gh pr close "$pr" --delete-branch --comment "\`release\`（${RELEASE_SHA}）の内容が \`main\` と同じになったため閉じます。"
+          fi
