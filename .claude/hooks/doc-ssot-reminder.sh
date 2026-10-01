@@ -3,8 +3,9 @@
 # 確認するようClaudeに非ブロッキングで気づかせる。
 set -euo pipefail
 
-# jq が無い環境ではリマインドせずに終了する（フックの失敗で作業を妨げない）
-command -v jq >/dev/null || exit 0
+# use-devshell.sh は単体で lint されるため、ここでは追わない
+# shellcheck disable=SC1091
+source "${BASH_SOURCE[0]%/*}/use-devshell.sh" jq
 
 input=$(cat)
 file_path=$(jq -r '.tool_input.file_path // empty' <<<"${input}")
