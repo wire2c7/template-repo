@@ -29,7 +29,7 @@
 | `.github/renovate.json5` | Renovate の設定（wire2c7/workflows の共有設定を継承） |
 | `.github/pull_request_template.md` / `.github/ISSUE_TEMPLATE/` | PR・Issue のテンプレート |
 | `AGENTS.md` | AIエージェント向けのプロジェクト指示（Claude Code もこれを読む） |
-| `.claude/` | Claude Code のプロジェクト設定・ファイル種別ごとの規約・スキル |
+| `.claude/` | Claude Code のプロジェクト設定・ファイル種別ごとの規約・スキル・フック |
 | `docs/adr/_template.md` | 設計判断の記録（ADR）の雛形 |
 
 ## 前提
@@ -65,6 +65,7 @@
 - [ ] CI にビルド・テストのステップを追加する
 - [ ] リポジトリに [Renovate GitHub App](https://github.com/apps/renovate) をインストールする
 - [ ] ブランチ保護で CI のステータスチェック `ci / check` を必須にする
+- [ ] `LICENSE` を追加する
 - [ ] この README をプロジェクト用に書き換える
 
 ## よく使うコマンド
