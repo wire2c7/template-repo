@@ -66,6 +66,7 @@ gitignore と同じ書式でパスを列挙します。
 - [x] Fine-grained PAT を発行し、Secrets の `RELEASE_PR_TOKEN` に登録する
   - 対象はこのリポジトリのみとし、Contents・Pull requests・Workflows の Read and write 権限を付与する
   - 有効期限が切れると `Release to main` ワークフローが失敗するため、期限前に更新する
+  - 失敗した後に更新した場合は、Actions の失敗した実行を Re-run する（実行から30日以内に限る）。30日を過ぎた場合は、次に `develop` → `release` の PR をマージしたときに `main` への PR が作り直される
 - [x] Renovate GitHub App を全リポジトリ対象でインストールしている場合は、このリポジトリを対象から除外する
 - [x] Settings → Rules → Rulesets で `main`・`release` それぞれにルールセットを作成する
   - PR必須（承認数0）、ステータスチェック `ci / check`（GitHub Actions）必須、force push・削除の禁止。迂回（bypass）は設定しない
