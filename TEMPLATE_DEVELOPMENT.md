@@ -52,11 +52,9 @@ gitignore と同じ書式でパスを列挙します。
 
 ## 依存の更新
 
-このリポジトリでは Renovate を使わず（[ADR 0003](docs/adr/0003-no-renovate-in-template-repo.md)）、必要に応じて `develop` で手動で更新します。
-
-- `flake.lock`: `nix flake update`
-- GitHub Actions の参照（`wire2c7/workflows` を含む）: コミットハッシュとバージョンのコメントを更新する。テンプレート開発専用のワークフローも対象
-- `.github/renovate.json5` の共有設定のバージョン
+[wire2c7/renovate-runner](https://github.com/wire2c7/renovate-runner)（private）から self-hosted Renovate が
+週次で `develop` に更新PRを作ります（[ADR 0007](docs/adr/0007-self-hosted-renovate-for-template-repo.md)）。
+設定・運用手順は `renovate-runner` の `README.md` を参照してください。
 
 ## リポジトリの初期設定
 
