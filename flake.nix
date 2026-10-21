@@ -56,6 +56,11 @@
               pkgs.commitlint
               pkgs.jq
               pkgs.prek
+              # 以下は、このリポジトリの現状のファイル構成に検査対象が無いため見送った汎用的な静的解析ツール。
+              # 対象となるファイルを追加したら導入を検討する
+              # pkgs.semgrep # 多言語SAST。Nixは非対応、Bash/YAMLは実験的言語という位置付け
+              # pkgs.trivy # コンテナ・IaC・依存関係の脆弱性スキャン。対応形式（Dockerfile/Terraform/Kubernetes等）が無い
+              # pkgs.checkov # IaCのセキュリティ静的解析。対応形式が無い
             ];
 
             shellHook = ''

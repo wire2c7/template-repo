@@ -58,7 +58,7 @@
 ## テンプレートから作成した後のチェックリスト
 
 - [ ] `flake.nix` の `description` を変更する
-- [ ] `flake.nix` の `devShells.default.packages` に言語ツールチェーンを追加する
+- [ ] `flake.nix` の `devShells.default.packages` に言語ツールチェーンを追加する（コメントアウトされた静的解析ツールの候補も確認する）
 - [ ] `flake.nix` の `treefmt.programs` に使用言語のフォーマッタを追加する
 - [ ] `.gitignore` に言語固有の除外パターンを追加する
 - [ ] `AGENTS.md` の TODO（プロジェクト概要、ビルド・テストコマンド）を埋める
