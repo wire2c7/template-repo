@@ -34,6 +34,7 @@ jobs:
         with:
           ref: release
           fetch-depth: 0
+          # zizmor: ignore[artipacked] 後続のステップでこのトークンを使って push するため persist-credentials は維持する（.claude/rules/github-actions.md 参照）
           token: ${{ secrets.RELEASE_PR_TOKEN }}
 
       - name: Build template snapshot
