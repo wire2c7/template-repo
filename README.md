@@ -63,7 +63,7 @@
 - [ ] `.gitignore` に言語固有の除外パターンを追加する
 - [ ] `AGENTS.md` の TODO（プロジェクト概要、ビルド・テストコマンド）を埋める
 - [ ] CI にビルド・テストのステップを追加する
-- [ ] デプロイ環境ができたら、[Nuclei](https://github.com/projectdiscovery/nuclei)（稼働中のURL・APIに対する動的脆弱性スキャン）等の導入を検討する
+- [ ] デプロイ環境ができたら、[Nuclei](https://github.com/projectdiscovery/nuclei)・[OWASP ZAP](https://github.com/zaproxy/zaproxy)（稼働中のURL・APIに対する動的脆弱性スキャン）等の導入を検討する
 - [ ] リポジトリに [Renovate GitHub App](https://github.com/apps/renovate) をインストールする
 - [ ] ブランチ保護で CI のステータスチェック `ci / check` を必須にする
 - [ ] `LICENSE` を追加する
