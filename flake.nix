@@ -42,6 +42,7 @@
                 # フラグ付きで起動されると shfmt は .editorconfig を読まないため、明示的に揃える
                 indent_size = 2;
               };
+              zizmor.enable = true;
             };
             # direnv の DSL はシェルスクリプトとして解釈できないため除外
             settings.formatter.shellcheck.excludes = [ ".envrc*" ];
@@ -55,6 +56,7 @@
               pkgs.betterleaks
               pkgs.commitlint
               pkgs.jq
+              pkgs.ls-lint
               pkgs.prek
               # 以下は、このリポジトリの現状のファイル構成に検査対象が無いため見送った汎用的な静的解析ツール。
               # 対象となるファイルを追加したら導入を検討する
