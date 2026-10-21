@@ -1,6 +1,6 @@
 # 0003. このリポジトリでは Renovate を使わない
 
-- ステータス：Accepted
+- ステータス：Superseded by 0007
 - 日付：2026-09-27
 - 関連 Issue：なし
 
