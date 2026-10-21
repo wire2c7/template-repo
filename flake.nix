@@ -34,6 +34,7 @@
           treefmt = {
             projectRootFile = "flake.nix";
             programs = {
+              deadnix.enable = true;
               nixfmt.enable = true;
               rumdl-check.enable = true;
               shellcheck.enable = true;
@@ -42,6 +43,7 @@
                 # フラグ付きで起動されると shfmt は .editorconfig を読まないため、明示的に揃える
                 indent_size = 2;
               };
+              statix.enable = true;
               zizmor.enable = true;
             };
             # direnv の DSL はシェルスクリプトとして解釈できないため除外
