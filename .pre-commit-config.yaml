@@ -37,6 +37,12 @@ repos:
         language: system
         files: ^\.github/workflows/.*\.ya?ml$
 
+      - id: ls-lint
+        name: ls-lint
+        entry: ls_lint
+        language: system
+        pass_filenames: false
+
       - id: betterleaks
         name: betterleaks
         entry: betterleaks git --staged --no-banner --redact

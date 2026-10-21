@@ -5,15 +5,25 @@
 
 ## ブランチ運用
 
-GitHubのTemplate Repositoryは既定ブランチ（`main`）の内容をコピーするため、`main` は常に「テンプレートとしてそのまま使える状態」に保ちます。
+理由は [ADR 0002](docs/adr/0002-branch-strategy.md) を参照してください。
 
 ```mermaid
-flowchart LR
-  feature["作業ブランチ"] -. "PR（任意）" .-> develop
-  develop["develop<br/>開発作業"] -- "PR" --> release["release<br/>リリース候補"]
-  release -- "push で<br/>ワークフロー起動" --> rtm["release-to-main<br/>開発専用ファイルを除去"]
-  rtm -- "自動作成された PR" --> main["main<br/>配布される内容"]
-  main -- "Use this template" --> repo(["新規リポジトリ"])
+gitGraph
+  commit id: "initial commit"
+  branch release order: 2
+  branch develop order: 3
+  commit id: "開発"
+  branch feature order: 4
+  commit id: "作業"
+  checkout develop
+  merge feature id: "PR（任意）"
+  checkout release
+  merge develop id: "PR: develop → release"
+  checkout main
+  branch release-to-main order: 1
+  merge release id: "開発専用ファイルを除去"
+  checkout main
+  merge release-to-main id: "自動作成のPR" tag: "配布される内容"
 ```
 
 | ブランチ | 役割 | 更新方法 |
@@ -25,9 +35,6 @@ flowchart LR
 ## release → main の自動化
 
 `release` への push で `.github/workflows/release-to-main.yaml` が `main` へのPRを作成・更新します。処理内容はワークフローを参照してください。
-
-`main` を起点にツリーを `release` の内容で丸ごと置き換えてから除去するため、PRの差分は「現在の `main`」と「新しい配布内容」の差になります。
-`main` の履歴やマージ方法（merge / squash）に関係なくコンフリクトしません。
 
 ## 配布しないものの指定
 
@@ -45,12 +52,9 @@ gitignore と同じ書式でパスを列挙します。
 
 ## 依存の更新
 
-このリポジトリでは Renovate を使いません。Renovate は既定ブランチ（`main`）にしか更新PRを作れず、`develop` → `release` → `main` の運用と両立しないためです。
-派生リポジトリは作成直後から Renovate で更新されるため、このリポジトリの依存が多少古くても影響は小さく、必要に応じて `develop` で手動で更新します。
-
-- `flake.lock`: `nix flake update`
-- GitHub Actions の参照（`wire2c7/workflows` を含む）: コミットハッシュとバージョンのコメントを更新する。テンプレート開発専用のワークフローも対象
-- `.github/renovate.json5` の共有設定のバージョン
+[wire2c7/renovate-runner](https://github.com/wire2c7/renovate-runner)（private）から self-hosted Renovate が
+週次で `develop` に更新PRを作ります（[ADR 0007](docs/adr/0007-self-hosted-renovate-for-template-repo.md)）。
+設定・運用手順は `renovate-runner` の `README.md` を参照してください。
 
 ## リポジトリの初期設定
 
@@ -59,9 +63,11 @@ gitignore と同じ書式でパスを列挙します。
 - [x] `develop` と `release` ブランチを作成する
 - [x] Fine-grained PAT を発行し、Secrets の `RELEASE_PR_TOKEN` に登録する
   - 対象はこのリポジトリのみとし、Contents・Pull requests・Workflows の Read and write 権限を付与する
-  - `GITHUB_TOKEN` ではワークフローファイルを含むコミットを push できず、作成したPRで CI も起動しないため必須
   - 有効期限が切れると `Release to main` ワークフローが失敗するため、期限前に更新する
+  - 失敗した後に更新した場合は、Actions の失敗した実行を Re-run する（実行から30日以内に限る）。30日を過ぎた場合は、次に `develop` → `release` の PR をマージしたときに `main` への PR が作り直される
 - [x] Renovate GitHub App を全リポジトリ対象でインストールしている場合は、このリポジトリを対象から除外する
 - [x] Settings → Rules → Rulesets で `main`・`release` それぞれにルールセットを作成する
   - PR必須（承認数0）、ステータスチェック `ci / check`（GitHub Actions）必須、force push・削除の禁止。迂回（bypass）は設定しない
-  - `release` のマージ方法は Merge commit のみにする（squash すると `develop` と履歴が分岐し、以降のPRでコンフリクトするため）
+  - マージ方法は Merge commit のみにする
+- [x] Settings → General → **Automatically delete head branches** を有効にする（マージ済みの `release-to-main` を削除するため）
+- [x] `develop` に削除を禁止するルールセットを作成する（`develop` → `release` のマージで自動削除されないようにするため。削除を禁止したブランチは自動削除の対象外になる）

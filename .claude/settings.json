@@ -11,6 +11,9 @@
     "ask": [
       "Bash(direnv allow*)",
       "Bash(nix flake update*)"
+    ],
+    "deny": [
+      "Edit(./flake.lock)"
     ]
   },
   "hooks": {
@@ -43,6 +46,33 @@
           {
             "type": "command",
             "command": "\"${CLAUDE_PROJECT_DIR}\"/.claude/hooks/doc-ssot-reminder.sh",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PROJECT_DIR}\"/.claude/hooks/format-file.sh",
+            "timeout": 60
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Read|Edit|Write|Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PROJECT_DIR}\"/.claude/hooks/protect-env.sh",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PROJECT_DIR}\"/.claude/hooks/block-no-verify.sh",
             "timeout": 10
           }
         ]

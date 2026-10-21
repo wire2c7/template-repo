@@ -19,3 +19,5 @@ paths:
 ## 自動チェック
 
 - 整形: `nixfmt`（`treefmt`）
+- lint: `statix`（`treefmt`。アンチパターンの検出・修正）
+- デッドコード検出: `deadnix`（`treefmt`。未使用の `let` 束縛・ラムダ引数等を削除）

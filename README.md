@@ -13,6 +13,7 @@
 - **GitHub Actions** によるCI
 - **Renovate** による依存関係の自動更新
 - **AGENTS.md** によるAIコーディングエージェント向けの指示
+- **ADR** による設計判断の記録（雛形・規約・Claude Code のスキル）
 
 ## 含まれるもの
 
@@ -28,7 +29,8 @@
 | `.github/renovate.json5` | Renovate の設定（wire2c7/workflows の共有設定を継承） |
 | `.github/pull_request_template.md` / `.github/ISSUE_TEMPLATE/` | PR・Issue のテンプレート |
 | `AGENTS.md` | AIエージェント向けのプロジェクト指示（Claude Code もこれを読む） |
-| `.claude/` | Claude Code のプロジェクト設定・ファイル種別ごとの規約・スキル |
+| `.claude/` | Claude Code のプロジェクト設定・ファイル種別ごとの規約・スキル・フック |
+| `docs/adr/_template.md` | 設計判断の記録（ADR）の雛形 |
 
 ## 前提
 
@@ -56,13 +58,15 @@
 ## テンプレートから作成した後のチェックリスト
 
 - [ ] `flake.nix` の `description` を変更する
-- [ ] `flake.nix` の `devShells.default.packages` に言語ツールチェーンを追加する
+- [ ] `flake.nix` の `devShells.default.packages` に言語ツールチェーンを追加する（コメントアウトされた静的解析ツールの候補も確認する）
 - [ ] `flake.nix` の `treefmt.programs` に使用言語のフォーマッタを追加する
 - [ ] `.gitignore` に言語固有の除外パターンを追加する
 - [ ] `AGENTS.md` の TODO（プロジェクト概要、ビルド・テストコマンド）を埋める
 - [ ] CI にビルド・テストのステップを追加する
+- [ ] デプロイ環境ができたら、[Nuclei](https://github.com/projectdiscovery/nuclei)・[OWASP ZAP](https://github.com/zaproxy/zaproxy)（稼働中のURL・APIに対する動的脆弱性スキャン）等の導入を検討する
 - [ ] リポジトリに [Renovate GitHub App](https://github.com/apps/renovate) をインストールする
 - [ ] ブランチ保護で CI のステータスチェック `ci / check` を必須にする
+- [ ] `LICENSE` を追加する
 - [ ] この README をプロジェクト用に書き換える
 
 ## よく使うコマンド
